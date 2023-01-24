@@ -1,0 +1,21 @@
+<wp-tabs>
+	<wp-tab
+		*ngFor="let file of files"
+		[title]="file.filePath"
+		[selected]="file.selected"
+		(close)="onClose(file.filePath)"
+	>
+		<ng-template>
+			<!-- <wp-monaco-editor
+				[code]="getFileContent(file.filePath)"
+				[extension]="getExtension(file.filePath)"
+				(codeChange)="onCodeChange(file.filePath, $event)"
+			></wp-monaco-editor> -->
+			<wp-monaco-editor-2
+				[options]="getOptions(file.filePath)"
+				(isInit)="onMonacoInit()"
+				(codeChange)="onCodeChange(file.filePath, $event)"
+			></wp-monaco-editor-2>
+		</ng-template>
+	</wp-tab>
+</wp-tabs>

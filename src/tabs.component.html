@@ -1,0 +1,27 @@
+<ng-container *ngIf="isInit">
+	<div
+		fxLayout="column"
+	>
+		<div
+			class="header"
+			fxLayout="row"
+		>
+			<wp-tab-title
+				*ngFor="let tab of tabs"
+				[title]="tab.title"
+				[selected]="tab.selected"
+				(click)="onTabClick(tab)"
+				(close)="tab.close.next()"
+			></wp-tab-title>
+		</div>
+	
+		<div
+			fxFlex
+			class="content"
+		>
+			<ng-container *ngIf="selectedTab !== undefined && selectedTab.templateRef !== undefined">
+				<ng-container *ngTemplateOutlet="selectedTab!.templateRef"></ng-container>
+			</ng-container>
+		</div>
+	</div>
+</ng-container>

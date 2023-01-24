@@ -1,0 +1,55 @@
+<!-- <ng-template #>
+	<ng-content></ng-content>
+</ng-template> -->
+
+<div
+	*ngIf="rootNode !== undefined"
+	[style.padding-left]="3 + indent * 10 + 'px'"
+	class="root"
+	fxLayout="row"
+	fxLayoutGap="10px"
+>
+	<div
+		class="icon-container"
+		(click)="toggleOpen()"
+	>
+		<ng-container
+			*ngIf="$any(rootNode).isCollapsed"
+		>
+			<fa-icon
+				*ngIf="!isContentDisplayed"
+				[icon]="faArrowRight"
+			></fa-icon>
+
+			<fa-icon
+				*ngIf="isContentDisplayed"
+				[icon]="faArrowDown"
+			></fa-icon>
+		</ng-container>
+	</div>
+
+	<div
+		fxFlex
+	>
+		<!-- {{rootNode}} -->
+		<ng-container
+			*ngTemplateOutlet="itemTemplateRef; context: {data: rootNode}"
+		></ng-container>
+	</div>
+</div>
+
+<!-- <div
+	*ngIf="isContentDisplayed"
+	class="content"
+> -->
+<ng-container
+	*ngIf="isContentDisplayed"
+>
+	<wp-tree
+		*ngFor="let node of children"
+		[node]="node"
+		[indent]="indent + 1"
+		[itemTemplateRef]="itemTemplateRef"
+	></wp-tree>
+</ng-container>
+<!-- </div> -->

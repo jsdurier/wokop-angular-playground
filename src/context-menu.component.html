@@ -1,0 +1,27 @@
+<section>
+  <div
+		*ngFor="let user of users"
+		wp-context-menu
+		[contextMenuTemplate]="userMenu"
+		[contextMenuInput]="user"
+	>
+    {{user.name}}
+  </div>
+</section>
+
+<ng-template
+	#userMenu
+	let-user
+>
+  <section
+		class="user-menu"
+	>
+    <div
+			(click)="delete(user)"
+		>
+			Delete {{user.name}}
+		</div>
+
+    <div>Send to</div>
+  </section>
+</ng-template>

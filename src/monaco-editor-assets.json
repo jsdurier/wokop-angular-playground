@@ -1,0 +1,8 @@
+{
+	"assets": [
+		{
+			"input": "node_modules/monaco-editor",
+			"output": "monaco-editor"
+		}
+	]
+}

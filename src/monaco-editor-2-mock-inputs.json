@@ -1,0 +1,11 @@
+{
+	"options": {
+		"theme": "vs-dark",
+		"language": "typescript",
+		"model": {
+			"value": "import { TATA }  from './tata';\n\nconst a = 12;\n",
+			"language": "typescript",
+			"uri": "toto.ts"
+		}
+	}
+}

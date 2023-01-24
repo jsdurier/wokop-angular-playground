@@ -1,0 +1,12 @@
+<div>
+	<input
+		#input
+		type="text"
+		[(ngModel)]="value"
+		(keyup.enter)="validate()"
+		(keyup.escape)="escape()"
+	>
+	<div>
+		{{ description.prompt }} (Press 'Enter' to confirm of 'Escape' to cancel)
+	</div>
+</div>

@@ -1,0 +1,20 @@
+<div
+	fxLayout="row"
+	fxLayoutAlign="space-between center"
+>
+	<div>
+		{{ data.label }}
+	</div>
+
+	<!-- <div>hey</div> -->
+	<div
+		*ngIf="data.actions !== undefined"
+		fxLayout="row"
+	>
+		<wp-clickable-icon
+			*ngFor="let action of data.actions"
+			[icon]="action.icon"
+			(click)="onClick(action, $event)"
+		></wp-clickable-icon>
+	</div>
+</div>

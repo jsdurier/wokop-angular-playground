@@ -1,0 +1,8 @@
+:host > div {
+	height: 100%;
+	position: relative;
+
+	> div {
+		height: 100%;
+	}
+}

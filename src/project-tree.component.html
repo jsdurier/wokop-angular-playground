@@ -1,0 +1,12 @@
+<wp-tree
+	[itemTemplateRef]="itemTemplate">
+</wp-tree>
+
+<ng-template
+	#itemTemplate
+	let-itemData="data"
+>
+	<wp-project-tree-item-2
+		[data]="itemData"
+	></wp-project-tree-item-2>
+</ng-template>

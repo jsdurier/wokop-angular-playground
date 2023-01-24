@@ -1,0 +1,17 @@
+<!-- TODO appeler le composant angular component,
+	service, interface, ... -->
+
+<div
+	wp-context-menu-2
+	[filePath]="filePath"
+	(click)="onClick()"
+>
+	<wp-project-tree-item
+		[data]="projectTreeItemData"
+	></wp-project-tree-item>
+
+	<!-- <wp-angular-tree-item
+		*ngIf="data.type === 'angular'"
+		[data]="data"
+	></wp-angular-tree-item> -->
+</div>

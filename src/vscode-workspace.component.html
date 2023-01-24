@@ -1,0 +1,22 @@
+<div
+	fxLayout="row"
+	fxLayoutAlign="start"
+	#hostContainer
+>
+	<ng-container #container></ng-container>
+	<!-- <div #container></div> -->
+	<div
+		class="tree"
+	>
+		<div class="sidebar-title">explorer</div>
+
+		<wp-project-tree></wp-project-tree>
+	</div>
+
+	<div
+		fxFlex
+		class="content"
+	>
+		<wp-files-tabs></wp-files-tabs>
+	</div>
+</div>

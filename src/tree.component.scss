@@ -1,0 +1,22 @@
+:host > div {
+	color: white;
+	font-family: -apple-system,BlinkMacSystemFont,sans-serif;
+	font-size: 13px;
+	padding-right: 3px;
+}
+
+.content {
+	// margin-left: 20px;
+}
+
+.root {
+	padding: 3px 0px;
+
+	&:hover {
+		background-color: #777;
+	}
+}
+
+.icon-container {
+	width: 10px;
+}

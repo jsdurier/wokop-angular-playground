@@ -1,0 +1,18 @@
+<div
+	fxLayout="row"
+	fxLayoutAlign="center center"
+	fxLayoutGap="3px"
+	[class.selected]="selected"
+>
+	<div>
+		{{ title }}
+	</div>
+
+	<wp-clickable-element
+		(click)="onClose()"
+	>
+		<fa-icon
+			[icon]="closeIcon"
+		></fa-icon>
+	</wp-clickable-element>
+</div>
