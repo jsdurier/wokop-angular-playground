@@ -16838,6 +16838,178 @@ function getHtmlFileContent(kebabName) {
 
 /***/ }),
 
+/***/ 2836:
+/*!**************************************************!*\
+  !*** ./src/create-ng-service-in-file.service.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CreateNgServiceInFileService)
+/* harmony export */ });
+/* harmony import */ var _Users_j_sdurier_Documents_development_wokop_angular_playground_node_modules_pnpm_babel_runtime_7_18_9_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/.pnpm/@babel+runtime@7.18.9/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 9283);
+/* harmony import */ var _create_ng_service_in_workspace_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create-ng-service-in-workspace.service */ 593);
+/* harmony import */ var _import_in_file__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./import-in-file */ 1421);
+/* harmony import */ var _project_files_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./project-files.service */ 5585);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 9332);
+
+
+
+
+
+class CreateNgServiceInFileService {
+  constructor(_createNgServiceInWorkspaceService, _projectFilesService) {
+    this._createNgServiceInWorkspaceService = _createNgServiceInWorkspaceService;
+    this._projectFilesService = _projectFilesService;
+  }
+
+  createNgServiceInFile(data) {
+    var _this = this;
+
+    return (0,_Users_j_sdurier_Documents_development_wokop_angular_playground_node_modules_pnpm_babel_runtime_7_18_9_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const importerFile = _this._projectFilesService.filePathList.find(e => e.path === data.filePath);
+
+      if (importerFile === undefined) {
+        return undefined;
+      }
+
+      const a = yield _this._createNgServiceInWorkspaceService.createNgServiceInWorkspace();
+
+      if (a === undefined) {
+        return undefined;
+      }
+      /**
+       * TODO-3 ajouter le service dans le constructeur
+       * du composant ou service.
+       */
+
+
+      const newFileContent = (0,_import_in_file__WEBPACK_IMPORTED_MODULE_2__["default"])(importerFile.content, a.className, a.fileName);
+
+      _this._projectFilesService.updt_modifyContent({
+        path: data.filePath,
+        content: newFileContent
+      });
+
+      return a.fileName;
+    })();
+  }
+
+}
+
+CreateNgServiceInFileService.ɵfac = function CreateNgServiceInFileService_Factory(t) {
+  return new (t || CreateNgServiceInFileService)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵinject"](_create_ng_service_in_workspace_service__WEBPACK_IMPORTED_MODULE_1__["default"]), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵinject"](_project_files_service__WEBPACK_IMPORTED_MODULE_3__["default"]));
+};
+
+CreateNgServiceInFileService.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineInjectable"]({
+  token: CreateNgServiceInFileService,
+  factory: CreateNgServiceInFileService.ɵfac,
+  providedIn: 'root'
+});
+
+/***/ }),
+
+/***/ 593:
+/*!*******************************************************!*\
+  !*** ./src/create-ng-service-in-workspace.service.ts ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CreateNgServiceInWorkspaceService)
+/* harmony export */ });
+/* harmony import */ var _Users_j_sdurier_Documents_development_wokop_angular_playground_node_modules_pnpm_babel_runtime_7_18_9_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/.pnpm/@babel+runtime@7.18.9/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 9283);
+/* harmony import */ var _convert_to_kebab_case__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./convert-to-kebab-case */ 7085);
+/* harmony import */ var _get_available_name__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./get-available-name */ 2131);
+/* harmony import */ var _get_typescript_file_name__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./get-typescript-file-name */ 1370);
+/* harmony import */ var _project_files_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./project-files.service */ 5585);
+/* harmony import */ var _show_input_box_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./show-input-box.service */ 6346);
+/* harmony import */ var _to_pascal_case__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./to-pascal-case */ 8160);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 9332);
+
+
+
+
+
+
+
+
+const PLACE_HOLDER = 'Angular service name';
+const PROMPT = 'Angular service name';
+const FILE_SUFFIX = '.service';
+const CLASS_NAME_SUFFIX = 'Service';
+class CreateNgServiceInWorkspaceService {
+  constructor(_showInputBoxService, _projectFilesService) {
+    this._showInputBoxService = _showInputBoxService;
+    this._projectFilesService = _projectFilesService;
+  }
+
+  createNgServiceInWorkspace() {
+    var _this = this;
+
+    return (0,_Users_j_sdurier_Documents_development_wokop_angular_playground_node_modules_pnpm_babel_runtime_7_18_9_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const nameFromUser = yield _this._showInputBoxService.showInputBox({
+        placeHolder: PLACE_HOLDER,
+        prompt: PROMPT
+      });
+
+      if (nameFromUser === undefined) {
+        return undefined;
+      }
+
+      const kebabName = (0,_convert_to_kebab_case__WEBPACK_IMPORTED_MODULE_1__.convertToKebabCase)(nameFromUser);
+      const availableNameKebab = yield (0,_get_available_name__WEBPACK_IMPORTED_MODULE_2__.getAvailableName)(_this._projectFilesService.filePathList.map(e => e.path), kebabName + FILE_SUFFIX);
+      const className = getClassName(kebabName);
+      const fileContent = getFileContent(className);
+      const filePath = (0,_get_typescript_file_name__WEBPACK_IMPORTED_MODULE_3__.getTypescriptFileName)(availableNameKebab);
+
+      _this._projectFilesService.updt_create({
+        path: filePath,
+        content: fileContent
+      });
+
+      return {
+        className,
+        fileName: availableNameKebab
+      };
+    })();
+  }
+
+}
+
+CreateNgServiceInWorkspaceService.ɵfac = function CreateNgServiceInWorkspaceService_Factory(t) {
+  return new (t || CreateNgServiceInWorkspaceService)(_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵinject"](_show_input_box_service__WEBPACK_IMPORTED_MODULE_5__["default"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵinject"](_project_files_service__WEBPACK_IMPORTED_MODULE_4__["default"]));
+};
+
+CreateNgServiceInWorkspaceService.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefineInjectable"]({
+  token: CreateNgServiceInWorkspaceService,
+  factory: CreateNgServiceInWorkspaceService.ɵfac,
+  providedIn: 'root'
+});
+
+function getFileContent(className) {
+  return `import { Injectable } from '@angular/core';
+
+@Injectable({providedIn: 'root'})
+export default class ${className} {
+	constructor() {
+		
+	}
+}
+`;
+}
+
+function getClassName(kebabName) {
+  const name = (0,_to_pascal_case__WEBPACK_IMPORTED_MODULE_6__["default"])(kebabName);
+  return `${name}${CLASS_NAME_SUFFIX}`;
+}
+
+/***/ }),
+
 /***/ 9817:
 /*!***************************!*\
   !*** ./src/deep-clone.ts ***!
@@ -19158,12 +19330,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _create_function_in_workspace_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./create-function-in-workspace.service */ 282);
 /* harmony import */ var _create_ng_component_in_file_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create-ng-component-in-file.service */ 550);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 9332);
+/* harmony import */ var _create_ng_service_in_file_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./create-ng-service-in-file.service */ 2836);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 9332);
+
 
 
 
 class WorkspaceCommandsService {
-    constructor(createFunctionService, createNgComponentService) {
+    constructor(createFunctionService, createNgComponentService, createNgServiceInFileService) {
         this.commands = {};
         this.commands = {
             createFunction: {
@@ -19177,6 +19351,12 @@ class WorkspaceCommandsService {
                 handler: (data) => {
                     createNgComponentService.createNgComponentInFile(data);
                 }
+            },
+            createNgService: {
+                name: 'Create ng service',
+                handler: (data) => {
+                    createNgServiceInFileService.createNgServiceInFile(data);
+                }
             }
         };
     }
@@ -19188,8 +19368,8 @@ class WorkspaceCommandsService {
         command.handler(arg);
     }
 }
-WorkspaceCommandsService.ɵfac = function WorkspaceCommandsService_Factory(t) { return new (t || WorkspaceCommandsService)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_create_function_in_workspace_service__WEBPACK_IMPORTED_MODULE_0__["default"]), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_create_ng_component_in_file_service__WEBPACK_IMPORTED_MODULE_1__["default"])); };
-WorkspaceCommandsService.ɵprov = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineInjectable"]({ token: WorkspaceCommandsService, factory: WorkspaceCommandsService.ɵfac, providedIn: 'root' });
+WorkspaceCommandsService.ɵfac = function WorkspaceCommandsService_Factory(t) { return new (t || WorkspaceCommandsService)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵinject"](_create_function_in_workspace_service__WEBPACK_IMPORTED_MODULE_0__["default"]), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵinject"](_create_ng_component_in_file_service__WEBPACK_IMPORTED_MODULE_1__["default"]), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵinject"](_create_ng_service_in_file_service__WEBPACK_IMPORTED_MODULE_2__["default"])); };
+WorkspaceCommandsService.ɵprov = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineInjectable"]({ token: WorkspaceCommandsService, factory: WorkspaceCommandsService.ɵfac, providedIn: 'root' });
 
 
 /***/ }),
