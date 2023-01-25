@@ -50,7 +50,7 @@ export default class FilesTabsComponent {
 		filePath: string,
 		code: string
 	): void {
-		this._projectFilesService.updt_modifyContent({
+		this._projectFilesService.updt_modifyContent2({
 			path: filePath,
 			content: code
 		});

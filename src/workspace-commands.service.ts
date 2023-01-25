@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import CreateFunctionInWorkspaceService from './create-function-in-workspace.service';
+import CreateNgComponentInFileService from './create-ng-component-in-file.service';
 import IWorkspaceCommand from './i-workspace-command';
 
 @Injectable({ providedIn: 'root' })
@@ -10,14 +11,23 @@ export default class WorkspaceCommandsService {
 	} = {};
 
 	constructor(
-		private readonly _createFunction: CreateFunctionInWorkspaceService
+		createFunctionService: CreateFunctionInWorkspaceService,
+		createNgComponentService: CreateNgComponentInFileService
 	) {
-		this.commands['createFunction'] = {
-			name: 'Create function',
-			handler: (data: any) => {
-				this._createFunction.createFunction(data);
+		this.commands = {
+			createFunction: {
+				name: 'Create function',
+				handler: (data: any) => {
+					createFunctionService.createFunction(data);
+				}
+			},
+			createNgComponent: {
+				name: 'Create ng component',
+				handler: (data: any) => {
+					createNgComponentService.createNgComponentInFile(data);
+				}
 			}
-		}
+		};
 	}
 
 	runCommand(

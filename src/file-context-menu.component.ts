@@ -40,10 +40,9 @@ export default class FileContextMenuComponent {
 
 	onClick(option: IFileContextMenuOption): void {
 		this._contextMenuRef.close();
-		const fileName = getFileName(this.filePath);
 		this._workspaceCommandsService.runCommand(
 			option.commandId,
-			{ fileName }
+			{ filePath: this.filePath }
 		);
 	}
 }

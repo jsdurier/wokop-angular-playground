@@ -52,7 +52,6 @@ export default class InitMonacoModelService {
 				monaco.editor.createModel(
 					e.content,
 					undefined,
-					// 'typescript',
 					monaco.Uri.parse(e.path)
 				);
 			}
@@ -62,39 +61,25 @@ export default class InitMonacoModelService {
 
 	private update(): void {
 		this._subscriptions.push(this._projectFilesService.fileUpdated$.subscribe(filePath => {
-			// const extension = getExtension(filePath);
-			// if (extension !== 'ts') {
-			// 	return;
-			// }
-			// const uri = monaco.Uri.parse(filePath);
-			// const fileContent = this._projectFilesService.getFile(filePath);
-			// const model = monaco.editor.getModel(uri);
-			// if (model === null) {
-			// 	monaco.editor.createModel(
-			// 		fileContent,
-			// 		undefined,
-			// 		// 'typescript',
-			// 		uri
-			// 	);
-			// 	return;
-			// }
-			// console.log('model set value');
-			// model.setValue(fileContent);
-			/**
-			 * TODO
-			 */
-			// console.warn('should update model monaco ?');
-		}));
-		this._subscriptions.push(this._projectFilesService.fileCreated$.subscribe(filePath => {
-			const extension = getExtension(filePath);
-			if (extension !== 'ts') {
+			const uri = monaco.Uri.parse(filePath);
+			const fileContent = this._projectFilesService.getFile(filePath);
+			const model = monaco.editor.getModel(uri);
+			if (model === null) {
+				monaco.editor.createModel(
+					fileContent,
+					undefined,
+					uri
+				);
 				return;
 			}
+			model.setValue(fileContent);
+		}));
+		this._subscriptions.push(this._projectFilesService.fileCreated$.subscribe(filePath => {
 			const uri = monaco.Uri.parse(filePath);
 			const fileContent = this._projectFilesService.getFile(filePath);
 			monaco.editor.createModel(
 				fileContent,
-				'typescript',
+				undefined,
 				uri
 			);
 		}));

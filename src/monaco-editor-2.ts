@@ -130,6 +130,9 @@ export default class MonacoEditor2Component extends BaseEditor implements Contro
 		}
 		this._editor.onDidChangeModelContent((e: any) => {
 			const value = this._editor.getValue();
+			if (value === this._value) {
+				return;
+			}
 			// value is not propagated to parent when executing outside zone.
 			this.zone.run(() => {
 				// console.log('onDidChangeModelContent', value);

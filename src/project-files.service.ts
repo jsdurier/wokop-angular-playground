@@ -55,6 +55,20 @@ export default class ProjectFilesService {
 		this._fileUpdated$.next(file.path);
 	}
 
+	/**
+	 * To be call by the editor,
+	 * no event fired to avoid a cyclic
+	 * method call.
+	 */
+	updt_modifyContent2(file: IFile): void {
+		const element = this.filePathList.find(e => e.path === file.path);
+		if (element === undefined) {
+			return;
+		}
+		element.content = file.content;
+		this._change$.next();
+	}
+
 	private saveInLocalStorageSubscribe(): void {
 		this._subscriptions.push(this._change$.pipe(debounceTime(DELAY_MS)).subscribe(() => {
 			localStorage.setItem(

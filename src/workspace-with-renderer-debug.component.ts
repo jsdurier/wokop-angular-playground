@@ -7,12 +7,8 @@ import deepClone from './deep-clone';
 import FilesInEditorService from './files-in-editor.service';
 import IFileInEditor from './i-file-in-editor';
 import INgProjectFilesService from './i-ng-project-files-service';
-import InitMonacoModelService from './init-monaco-model.service';
 import ProjectFilesService from './project-files.service';
-import ShowInputBoxService from './show-input-box.service';
-import VscodeInputBoxValueService from './vscode-input-box-value.service';
 import VscodeWorkspaceComponent from './vscode-workspace.component';
-import WorkspaceCommandsService from './workspace-commands.service';
 
 @Component({
 	selector: 'wp-workspace-with-renderer-debug',
@@ -24,11 +20,6 @@ import WorkspaceCommandsService from './workspace-commands.service';
 		CompileComponentComponent
 	],
 	providers: [
-		VscodeInputBoxValueService,
-		ShowInputBoxService,
-		WorkspaceCommandsService,
-		InitMonacoModelService,
-		FilesInEditorService,
 		{
 			provide: INgProjectFilesService,
 			useExisting: ProjectFilesService
