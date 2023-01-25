@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import CreateFunctionInWorkspaceService from './create-function-in-workspace.service';
 import CreateNgComponentInFileService from './create-ng-component-in-file.service';
+import CreateNgServiceInFileService from './create-ng-service-in-file.service';
 import IWorkspaceCommand from './i-workspace-command';
 
 @Injectable({ providedIn: 'root' })
@@ -12,7 +13,8 @@ export default class WorkspaceCommandsService {
 
 	constructor(
 		createFunctionService: CreateFunctionInWorkspaceService,
-		createNgComponentService: CreateNgComponentInFileService
+		createNgComponentService: CreateNgComponentInFileService,
+		createNgServiceInFileService: CreateNgServiceInFileService
 	) {
 		this.commands = {
 			createFunction: {
@@ -25,6 +27,12 @@ export default class WorkspaceCommandsService {
 				name: 'Create ng component',
 				handler: (data: any) => {
 					createNgComponentService.createNgComponentInFile(data);
+				}
+			},
+			createNgService: {
+				name: 'Create ng service',
+				handler: (data: any) => {
+					createNgServiceInFileService.createNgServiceInFile(data);
 				}
 			}
 		};
