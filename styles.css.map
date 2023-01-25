@@ -1,0 +1,1 @@
+{"version":3,"file":"styles.css","mappings":";;;AAAA;AAEA;EACC;EACA;AAAD,C","sources":["./src/styles.scss"],"sourcesContent":["/* You can add global styles to this file, and also import other style files */\n\nhtml, body {\n\tmargin: 0;\n\theight: 100%;\n}\n\nbody {\n}\n"],"names":[],"sourceRoot":"webpack:///","x_google_ignoreList":[]}
