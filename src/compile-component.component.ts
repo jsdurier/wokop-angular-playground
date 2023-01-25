@@ -5,9 +5,12 @@ import {
 	Input,
 	OnChanges
 } from '@angular/core';
+import { debounceTime } from 'rxjs';
 
 import createNgComponentFromString from './create-ng-component-from-string';
 import INgProjectFilesService from './i-ng-project-files-service';
+
+const DEBOUNCE_MS = 250;
 
 /**
  * To use this component, you should have this line
@@ -44,6 +47,7 @@ export default class CompileComponentComponent implements OnChanges {
 	}
 
 	private update(): void {
+		console.log('update renderer');
 		this.dynamicComponent = createNgComponentFromString(
 			this.ngComponentFileName,
 			this._ngProjectFilesService
@@ -54,7 +58,7 @@ export default class CompileComponentComponent implements OnChanges {
 		/**
 		 * TODO
 		 */
-		this._ngProjectFilesService.change$.subscribe(() => {
+		this._ngProjectFilesService.change$.pipe(debounceTime(DEBOUNCE_MS)).subscribe(() => {
 			this.update();
 		});
 	}
