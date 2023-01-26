@@ -64,6 +64,7 @@ export default class FilesTabsComponent {
 		this._map[filePath] = {
 			theme: DEFAULT_THEME,
 			language: getLanguage(filePath),
+			tabSize: 2,
 			model: {
 				// value: this.getFileContent(filePath),
 				// language: 'typescript',
