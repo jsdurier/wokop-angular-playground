@@ -47,7 +47,6 @@ export default class CompileComponentComponent implements OnChanges {
 	}
 
 	private update(): void {
-		console.log('update renderer');
 		this.dynamicComponent = createNgComponentFromString(
 			this.ngComponentFileName,
 			this._ngProjectFilesService
