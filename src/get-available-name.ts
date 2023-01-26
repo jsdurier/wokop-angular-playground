@@ -23,7 +23,8 @@ function getAvailableNameWithSuffix(
 	counter: number
 ): string {
 	const a = name.split('.');
-	const nameWithCounter = `${a[0]}-${counter}`;
+	a[0] = `${a[0]}-${counter}`;
+	const nameWithCounter = a.join('.');
 	if (allExistingNames.indexOf(nameWithCounter) < 0) {
 		return nameWithCounter;
 	}
