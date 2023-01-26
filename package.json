@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build-pages": "ng build --configuration development --base-href \"https://jsdurier.github.io/wokop-angular-playground/\"",
-    "publish-pages": "angular-cli-ghpages --dir=dist/wokop-angular-playground"
+    "publish-pages": "angular-cli-ghpages --dir=dist/wokop-angular-playground",
+		"deploy": "npm run build-pages && npm run publish-pages"
   },
   "private": true,
   "dependencies": {
