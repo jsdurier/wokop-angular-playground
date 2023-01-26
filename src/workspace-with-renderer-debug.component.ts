@@ -27,7 +27,7 @@ import VscodeWorkspaceComponent from './vscode-workspace.component';
 	]
 })
 export default class WorkspaceWithRendererDebugComponent {
-	ngComponentFileName = 'toto.component.ts';
+	ngComponentFileName = 'example.component.ts';
 
 	constructor(
 		projectFilesService: ProjectFilesService,
@@ -108,7 +108,7 @@ export default class WorkspaceWithRendererDebugComponent {
 
 const FILES_IN_EDITOR: IFileInEditor[] = [
 	{
-		filePath: 'toto.component.ts',
+		filePath: 'example.component.ts',
 		selected: true
 	}
 ];
