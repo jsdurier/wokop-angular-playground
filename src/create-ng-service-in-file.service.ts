@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import CreateNgServiceInWorkspaceService from './create-ng-service-in-workspace.service';
-import importInFile from './import-in-file';
+import importNgServiceInFile from './import-ng-service-in-file';
 import ProjectFilesService from './project-files.service';
 
 @Injectable({ providedIn: 'root' })
@@ -20,14 +20,9 @@ export default class CreateNgServiceInFileService {
 		if (a === undefined) {
 			return undefined;
 		}
-		/**
-		 * TODO-3 ajouter le service dans le constructeur
-		 * du composant ou service.
-		 */
-		const newFileContent = importInFile(
+		const newFileContent = importNgServiceInFile(
 			importerFile.content,
-			a.className,
-			a.fileName
+			a
 		);
 		this._projectFilesService.updt_modifyContent({
 			path: data.filePath,
