@@ -16729,7 +16729,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Users_j_sdurier_Documents_development_wokop_angular_playground_node_modules_pnpm_babel_runtime_7_18_9_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/.pnpm/@babel+runtime@7.18.9/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 9283);
 /* harmony import */ var _create_ng_component_in_workspace_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create-ng-component-in-workspace.service */ 7641);
-/* harmony import */ var _import_in_file__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./import-in-file */ 1421);
+/* harmony import */ var _import_ng_component_in_file__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./import-ng-component-in-file */ 1383);
 /* harmony import */ var _project_files_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./project-files.service */ 5585);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 9332);
 
@@ -16758,13 +16758,11 @@ class CreateNgComponentInFileService {
       if (a === undefined) {
         return undefined;
       }
-      /**
-       * TODO-3 ajouter le componsant importé dans le tableau imports
-       * du @Component.
-       */
 
-
-      const newFileContent = (0,_import_in_file__WEBPACK_IMPORTED_MODULE_2__["default"])(importerFile.content, a.componentClassName, a.fileName);
+      const newFileContent = (0,_import_ng_component_in_file__WEBPACK_IMPORTED_MODULE_2__["default"])(importerFile.content, {
+        className: a.componentClassName,
+        fileName: a.fileName
+      });
 
       _this._projectFilesService.updt_modifyContent({
         path: data.filePath,
@@ -16928,7 +16926,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Users_j_sdurier_Documents_development_wokop_angular_playground_node_modules_pnpm_babel_runtime_7_18_9_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/.pnpm/@babel+runtime@7.18.9/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 9283);
 /* harmony import */ var _create_ng_service_in_workspace_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create-ng-service-in-workspace.service */ 593);
-/* harmony import */ var _import_in_file__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./import-in-file */ 1421);
+/* harmony import */ var _import_ng_service_in_file__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./import-ng-service-in-file */ 2972);
 /* harmony import */ var _project_files_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./project-files.service */ 5585);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 9332);
 
@@ -16957,13 +16955,8 @@ class CreateNgServiceInFileService {
       if (a === undefined) {
         return undefined;
       }
-      /**
-       * TODO-3 ajouter le service dans le constructeur
-       * du composant ou service.
-       */
 
-
-      const newFileContent = (0,_import_in_file__WEBPACK_IMPORTED_MODULE_2__["default"])(importerFile.content, a.className, a.fileName);
+      const newFileContent = (0,_import_ng_service_in_file__WEBPACK_IMPORTED_MODULE_2__["default"])(importerFile.content, a);
 
       _this._projectFilesService.updt_modifyContent({
         path: data.filePath,
@@ -17522,6 +17515,39 @@ function _convertTypescriptDep() {
 
 /***/ }),
 
+/***/ 3335:
+/*!*********************************************!*\
+  !*** ./src/get-first-non-empty-char-pos.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ getFirstNonEmptyCharPos)
+/* harmony export */ });
+const EMPTY_CHARS = [
+    '\n',
+    ' ',
+    '\t'
+];
+function getFirstNonEmptyCharPos(text, firstPos) {
+    let index = firstPos;
+    while (true) {
+        const char = text[index];
+        if (!EMPTY_CHARS.includes(char)) {
+            return index;
+        }
+        if (index >= text.length) {
+            return index;
+        }
+        index++;
+    }
+}
+
+
+/***/ }),
+
 /***/ 8351:
 /*!****************************!*\
   !*** ./src/get-imports.ts ***!
@@ -17553,22 +17579,20 @@ function processLine(lineText, row) {
 
 /***/ }),
 
-/***/ 9906:
-/*!*******************************!*\
-  !*** ./src/get-ts-imports.ts ***!
-  \*******************************/
+/***/ 1934:
+/*!*****************************************!*\
+  !*** ./src/get-ts-imports-from-node.ts ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getTsImports": () => (/* binding */ getTsImports)
+/* harmony export */   "getTsImportsFromNode": () => (/* binding */ getTsImportsFromNode)
 /* harmony export */ });
-/* harmony import */ var typescript__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! typescript */ 3130);
-/* harmony import */ var typescript__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _get_first_non_empty_char_pos__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./get-first-non-empty-char-pos */ 3335);
 
-function getTsImports(fileContent) {
-    const node = typescript__WEBPACK_IMPORTED_MODULE_0__.createSourceFile('fileName', fileContent, typescript__WEBPACK_IMPORTED_MODULE_0__.ScriptTarget.Latest);
+function getTsImportsFromNode(node) {
     return node.statements.map((e) => {
         if (e.importClause === undefined) {
             return undefined;
@@ -17579,7 +17603,7 @@ function getTsImports(fileContent) {
             importClause,
             moduleSpecifier,
             tokenPosition: {
-                start: e.pos,
+                start: (0,_get_first_non_empty_char_pos__WEBPACK_IMPORTED_MODULE_0__["default"])(node.text, e.pos),
                 end: e.end
             }
         };
@@ -17608,6 +17632,30 @@ function getImportClause(importClause) {
         });
     }
     return undefined;
+}
+
+
+/***/ }),
+
+/***/ 9906:
+/*!*******************************!*\
+  !*** ./src/get-ts-imports.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getTsImports": () => (/* binding */ getTsImports)
+/* harmony export */ });
+/* harmony import */ var typescript__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! typescript */ 3130);
+/* harmony import */ var typescript__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _get_ts_imports_from_node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./get-ts-imports-from-node */ 1934);
+
+
+function getTsImports(fileContent) {
+    const node = typescript__WEBPACK_IMPORTED_MODULE_0__.createSourceFile('fileName', fileContent, typescript__WEBPACK_IMPORTED_MODULE_0__.ScriptTarget.Latest);
+    return (0,_get_ts_imports_from_node__WEBPACK_IMPORTED_MODULE_1__.getTsImportsFromNode)(node);
 }
 
 
@@ -17667,25 +17715,136 @@ class ITreeDataProviderService {
 
 /***/ }),
 
-/***/ 1421:
-/*!*******************************!*\
-  !*** ./src/import-in-file.ts ***!
-  \*******************************/
+/***/ 1383:
+/*!********************************************!*\
+  !*** ./src/import-ng-component-in-file.ts ***!
+  \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ importInFile)
+/* harmony export */   "default": () => (/* binding */ importNgComponentInFile)
 /* harmony export */ });
-/* harmony import */ var _add_new_import__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./add-new-import */ 3184);
+/* harmony import */ var typescript__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! typescript */ 3130);
+/* harmony import */ var typescript__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _insert_new_import__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./insert-new-import */ 2652);
 
-function importInFile(importerFileContent, className, fileName) {
-    const newFileContent = (0,_add_new_import__WEBPACK_IMPORTED_MODULE_0__["default"])({
-        alias: className,
-        name: fileName
-    }, importerFileContent);
-    return newFileContent;
+
+function importNgComponentInFile(fileContent, data) {
+    const fileContentWithNewImport = (0,_insert_new_import__WEBPACK_IMPORTED_MODULE_1__["default"])(fileContent, data);
+    return insertInImportsSection(fileContentWithNewImport, data.className);
+}
+function insertInImportsSection(fileContent, componentClassName) {
+    const node = typescript__WEBPACK_IMPORTED_MODULE_0__.createSourceFile('fileName', fileContent, typescript__WEBPACK_IMPORTED_MODULE_0__.ScriptTarget.Latest);
+    const classDeclaration = node.statements.find(e => e.kind === typescript__WEBPACK_IMPORTED_MODULE_0__.SyntaxKind.ClassDeclaration);
+    if (classDeclaration === undefined) {
+        return fileContent;
+    }
+    if (classDeclaration.decorators === undefined) {
+        return fileContent;
+    }
+    const expression = classDeclaration.decorators[0].expression;
+    const properties = expression.arguments[0].properties;
+    const imports = properties.find(e => e.name.escapedText === 'imports');
+    if (imports === undefined) {
+        /**
+         * TODO ordre alphabétique
+         */
+        const lastProperty = properties.slice(-1)[0];
+        return fileContent.substring(0, lastProperty.end) + `,\n  imports: [
+    ${componentClassName}
+  ]` + fileContent.substring(lastProperty.end);
+    }
+    const elements = imports.initializer.elements;
+    let elementBefore = undefined;
+    for (const e of elements) {
+        if (e.escapedText > componentClassName) {
+            break;
+        }
+        elementBefore = e;
+    }
+    if (elementBefore === undefined) {
+        if (elements.length === 0) {
+            const offset = elements.pos;
+            return fileContent.substring(0, offset) +
+                `\n    ${componentClassName}` +
+                fileContent.substring(offset);
+        }
+        return fileContent.substring(0, elements[0].pos) +
+            `\n    ${componentClassName},` +
+            fileContent.substring(elements[0].pos);
+    }
+    return fileContent.substring(0, elementBefore.end) +
+        `,\n    ${componentClassName}` +
+        fileContent.substring(elementBefore.end);
+}
+
+
+/***/ }),
+
+/***/ 2972:
+/*!******************************************!*\
+  !*** ./src/import-ng-service-in-file.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ importNgServiceInFile)
+/* harmony export */ });
+/* harmony import */ var typescript__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! typescript */ 3130);
+/* harmony import */ var typescript__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _get_first_non_empty_char_pos__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./get-first-non-empty-char-pos */ 3335);
+/* harmony import */ var _insert_new_import__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./insert-new-import */ 2652);
+
+
+
+function importNgServiceInFile(fileContent, data) {
+    const fileContentWithNewImport = (0,_insert_new_import__WEBPACK_IMPORTED_MODULE_2__["default"])(fileContent, data);
+    return insertInConstructor(fileContentWithNewImport, data);
+}
+function insertInConstructor(fileContent, data) {
+    const node = typescript__WEBPACK_IMPORTED_MODULE_0__.createSourceFile('fileName', fileContent, typescript__WEBPACK_IMPORTED_MODULE_0__.ScriptTarget.Latest);
+    const classDeclaration = node.statements.find(e => e.kind === typescript__WEBPACK_IMPORTED_MODULE_0__.SyntaxKind.ClassDeclaration);
+    if (classDeclaration === undefined) {
+        return fileContent;
+    }
+    const newParamName = `_${lowerFirstChar(data.className)}`;
+    const newLine = `    private readonly ${newParamName}: ${data.className}`;
+    const constructor = classDeclaration.members.find(e => e.kind === typescript__WEBPACK_IMPORTED_MODULE_0__.SyntaxKind.Constructor);
+    if (constructor === undefined) {
+        const offset = classDeclaration.members.pos;
+        return fileContent.substring(0, offset) + `\n  constructor(
+${newLine}
+  ) { }` + fileContent.substring(offset);
+    }
+    if (constructor.parameters.length > 0) {
+        let parameterBefore = undefined;
+        for (const e of constructor.parameters) {
+            if (e.name.escapedText > newParamName) {
+                break;
+            }
+            parameterBefore = e;
+        }
+        if (parameterBefore === undefined) {
+            const parameterAfter = constructor.parameters[0];
+            const a = (0,_get_first_non_empty_char_pos__WEBPACK_IMPORTED_MODULE_1__["default"])(fileContent, parameterAfter.pos);
+            return fileContent.substring(0, parameterAfter.pos) + `\n${newLine},\n    ` + fileContent.substring(a);
+        }
+        const textToInsert = `,\n${newLine}`;
+        return fileContent.substring(0, parameterBefore.end) + textToInsert + fileContent.substring(parameterBefore.end);
+    }
+    /**
+     * No params
+     */
+    const body = constructor.body;
+    const offset = body.pos - 1;
+    return fileContent.substring(0, offset) + `\n${newLine}\n  ` + fileContent.substring(offset);
+}
+function lowerFirstChar(text) {
+    return text.charAt(0).toLowerCase() + text.slice(1);
 }
 
 
@@ -17771,6 +17930,46 @@ function getExtension(filePath) {
         return undefined;
     }
     return array.slice(-1)[0];
+}
+
+
+/***/ }),
+
+/***/ 2652:
+/*!**********************************!*\
+  !*** ./src/insert-new-import.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ insertNewImport)
+/* harmony export */ });
+/* harmony import */ var _get_ts_imports__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./get-ts-imports */ 9906);
+
+const LOCAL_IMPORT_PREFIX = './';
+function insertNewImport(fileContent, data) {
+    const imports = (0,_get_ts_imports__WEBPACK_IMPORTED_MODULE_0__.getTsImports)(fileContent);
+    let offset = 0;
+    let beforeNewLine = '\n\n';
+    let afterNewLine = '';
+    for (const importClause of imports) {
+        const moduleSpecifier = importClause.moduleSpecifier;
+        if (moduleSpecifier.startsWith(LOCAL_IMPORT_PREFIX)) {
+            const a = moduleSpecifier.slice(LOCAL_IMPORT_PREFIX.length);
+            if (data.fileName < a) {
+                beforeNewLine = '';
+                afterNewLine = '\n';
+                offset = importClause.tokenPosition.start;
+                break;
+            }
+            beforeNewLine = '\n';
+        }
+        offset = importClause.tokenPosition.end;
+    }
+    const newLine = `import ${data.className} from './${data.fileName}';`;
+    return fileContent.substring(0, offset) + beforeNewLine + newLine + afterNewLine + fileContent.substring(offset);
 }
 
 
