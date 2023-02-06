@@ -2,7 +2,7 @@ import * as angularCommon from '@angular/common';
 import * as angularCore from '@angular/core';
 import 'reflect-metadata';
 
-import { getImports } from './get-imports';
+import getAllDepedenciesFilesNames from './get-all-dependencies-files-names';
 import {
 	getTsImports,
 	ITsImport
@@ -60,44 +60,6 @@ function bundleFiles(
 		e,
 		ngProjectFilesService
 	)).join('\n') + '\n' + modifiedContent;
-	return res;
-}
-
-function getAllDepedenciesFilesNames(
-	fileName: string,
-	ngProjectFilesService: INgProjectFilesService
-): string[] {
-	const res: string[] = [];
-	const fileContent = ngProjectFilesService.getFile(fileName);
-	if (fileContent === undefined) {
-		throw new Error(`no file ${fileName}`);
-	}
-	const localImports = getImports(fileContent);
-	localImports.forEach(e => {
-		/**
-		 * TODO
-		 * prendre en compte e.alias
-		 */
-		const dependencyFileName = e.name + '.ts';
-		const array = getAllDepedenciesFilesNames(
-			dependencyFileName,
-			ngProjectFilesService
-		).concat(dependencyFileName)
-		let ref = 0;
-		for (const e of array) {
-			const i = res.indexOf(e);
-			if (i >= 0) {
-				ref = i;
-			} else {
-				res.splice(
-					ref,
-					0,
-					e
-				);
-				ref++;
-			}
-		}
-	});
 	return res;
 }
 
