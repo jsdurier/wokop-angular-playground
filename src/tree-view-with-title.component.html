@@ -1,0 +1,39 @@
+<div>
+	<div
+		class="title"
+		(click)="toggleOpen()"
+	>
+		<div class="main-title">
+			<div
+				class="icon-container"
+			>
+				<fa-icon
+					*ngIf="!isContentDisplayed"
+					[icon]="faArrowRight"
+				></fa-icon>
+		
+				<fa-icon
+					*ngIf="isContentDisplayed"
+					[icon]="faArrowDown"
+				></fa-icon>
+			</div>
+	
+			<div>
+				{{title}}
+			</div>
+		</div>
+
+		<wp-clickable-element
+			[wp-context-menu-3]="WorkspaceContextMenuComponent"
+		>
+			<div class="options"></div>
+		</wp-clickable-element>
+	</div>
+
+	<div
+		class="content"
+		[class.is-visible]="isContentDisplayed"
+	>
+		<ng-content></ng-content>
+	</div>
+</div>

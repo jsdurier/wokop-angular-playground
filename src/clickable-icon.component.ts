@@ -4,10 +4,13 @@ import {
 } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+import ClickableElementComponent from './clickable-element-2';
+
 @Component({
 	selector: 'wp-clickable-icon',
 	standalone: true,
 	imports: [
+		ClickableElementComponent,
 		FlexLayoutModule
 	],
 	templateUrl: './clickable-icon.component.html',

@@ -1,0 +1,43 @@
+.title {
+	text-transform: uppercase;
+	font-family: -apple-system,BlinkMacSystemFont,sans-serif;
+	font-size: 11px;
+	text-overflow: ellipsis;
+	line-height: 22px;
+	color: #ccc;
+	box-shadow: 0 2px 3px 1px black;
+	padding: 1px 10px;
+	overflow: hidden;
+	// box-sizing: border-box;
+	// box-sizing: content-box;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: pointer;
+}
+
+.main-title {
+	display: flex;
+	align-items: center;
+}
+
+.icon-container {
+	width: 10px;
+	margin-right: 10px;
+}
+
+.content {
+	visibility: hidden;
+}
+
+.is-visible {
+	visibility: visible;
+}
+
+.options {
+	font-family: codicon;
+	&:before {
+		content: '\ea7c';
+		// display: none;
+	}
+}

@@ -6,4 +6,8 @@ html, body {
 }
 
 body {
+	::selection {
+    color: none;
+    background: none;
+	}
 }
