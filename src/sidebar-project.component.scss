@@ -1,0 +1,70 @@
+:host > div {
+	display: flex;
+	flex-direction: column;
+	min-width: 300px;
+	background-color: rgb(37, 37, 38);
+	color: white;
+	overflow: hidden;
+	height: 100%;
+}
+
+.sidebar-title {
+	font-size: 11px;
+	font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+	font-weight: 400;
+	text-transform: uppercase;
+	color: rgb(187, 187, 187);
+	line-height: 35px;
+	margin-left: 10px;
+}
+
+.title {
+	text-transform: uppercase;
+	font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+	font-size: 11px;
+	text-overflow: ellipsis;
+	line-height: 22px;
+	color: #ccc;
+	box-shadow: 0 2px 3px 1px black;
+	padding: 1px 10px;
+	overflow: hidden;
+	// box-sizing: border-box;
+	// box-sizing: content-box;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: pointer;
+}
+
+.main-title {
+	display: flex;
+	align-items: center;
+}
+
+.icon-container {
+	width: 10px;
+	margin-right: 10px;
+}
+
+.content {
+	flex: 1;
+	visibility: hidden;
+	overflow-y: scroll;
+
+	>div {
+		//
+	}
+}
+
+.is-visible {
+	visibility: visible;
+}
+
+.options {
+	font-family: codicon;
+
+	&:before {
+		content: '\ea7c';
+		// display: none;
+	}
+}

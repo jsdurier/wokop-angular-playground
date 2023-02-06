@@ -6,17 +6,17 @@ import {
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import FilesTabsComponent from './files-tabs.component';
-import ProjectTreeComponent from './project-tree.component';
 import ShowOverlayService from './show-overlay.service';
+import SidebarProjectComponent from './sidebar-project.component';
 import VscodeWorkspaceViewContainerRefService from './vscode-workspace-view-container-ref.service';
 
 @Component({
 	selector: 'wp-vscode-workspace',
 	standalone: true,
 	imports: [
-		ProjectTreeComponent,
 		FlexLayoutModule,
-		FilesTabsComponent
+		FilesTabsComponent,
+		SidebarProjectComponent
 	],
 	templateUrl: './vscode-workspace.component.html',
 	styleUrls: ['./vscode-workspace.component.scss']

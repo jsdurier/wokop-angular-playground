@@ -27,6 +27,9 @@ import VscodeWorkspaceComponent from './vscode-workspace.component';
 	]
 })
 export default class WorkspaceWithRendererDebugComponent {
+	/**
+	 * TODO
+	 */
 	ngComponentFileName = 'example.component.ts';
 
 	constructor(
