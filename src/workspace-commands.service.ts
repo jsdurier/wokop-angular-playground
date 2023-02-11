@@ -3,7 +3,12 @@ import { Injectable } from '@angular/core';
 import CreateFunctionInWorkspaceService from './create-function-in-workspace.service';
 import CreateNgComponentInFileService from './create-ng-component-in-file.service';
 import CreateNgServiceInFileService from './create-ng-service-in-file.service';
+import FocusComponentService from './focus-component.service';
 import IWorkspaceCommand from './i-workspace-command';
+
+interface IData {
+	filePath: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export default class WorkspaceCommandsService {
@@ -14,25 +19,32 @@ export default class WorkspaceCommandsService {
 	constructor(
 		createFunctionService: CreateFunctionInWorkspaceService,
 		createNgComponentService: CreateNgComponentInFileService,
-		createNgServiceInFileService: CreateNgServiceInFileService
+		createNgServiceInFileService: CreateNgServiceInFileService,
+		focusComponentService: FocusComponentService
 	) {
 		this.commands = {
 			createFunction: {
 				name: 'Create function',
-				handler: (data: any) => {
+				handler: (data: IData) => {
 					createFunctionService.createFunction(data);
 				}
 			},
 			createNgComponent: {
 				name: 'Create ng component',
-				handler: (data: any) => {
+				handler: (data: IData) => {
 					createNgComponentService.createNgComponentInFile(data);
 				}
 			},
 			createNgService: {
 				name: 'Create ng service',
-				handler: (data: any) => {
+				handler: (data: IData) => {
 					createNgServiceInFileService.createNgServiceInFile(data);
+				}
+			},
+			focus: {
+				name: 'Focus',
+				handler: (data: IData) => {
+					focusComponentService.set(data.filePath);
 				}
 			}
 		};

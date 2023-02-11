@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 
-import WorkspaceWithRendererDebugComponent from './workspace-with-renderer-debug.component';
+import WorkspaceWithRendererComponent from './workspace-with-renderer.component';
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
-	imports: [
-		WorkspaceWithRendererDebugComponent
-	],
 	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss']
+	styleUrls: ['./app.component.scss'],
+	imports: [
+		WorkspaceWithRendererComponent
+	]
 })
 export default class AppComponent {
 

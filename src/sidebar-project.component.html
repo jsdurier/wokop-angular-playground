@@ -1,45 +1,7 @@
 <div>
 	<div class="sidebar-title">explorer</div>
 
-	<div
-		class="title"
-		(click)="toggleOpen()"
-	>
-		<div class="main-title">
-			<div
-				class="icon-container"
-			>
-				<fa-icon
-					*ngIf="!isContentDisplayed"
-					[icon]="faArrowRight"
-				></fa-icon>
+	<wp-all-files-tree></wp-all-files-tree>
 
-				<fa-icon
-					*ngIf="isContentDisplayed"
-					[icon]="faArrowDown"
-				></fa-icon>
-			</div>
-
-			<div>
-				project view
-			</div>
-		</div>
-
-		<wp-clickable-element
-			[wp-context-menu-3]="WorkspaceContextMenuComponent"
-		>
-			<div class="options"></div>
-		</wp-clickable-element>
-	</div>
-
-	<div
-		class="content"
-		[class.is-visible]="isContentDisplayed"
-	>
-		<div>
-			<wp-project-tree-content></wp-project-tree-content>
-		</div>
-	</div>
+	<wp-focus-components-tree></wp-focus-components-tree>
 </div>
-
-<!-- <wp-project-tree></wp-project-tree> -->

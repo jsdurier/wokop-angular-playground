@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
-export default class ProjectTreeContentMockInitService {
+export default class MultiNodeTreeMockInitService {
 	constructor() { }
 }

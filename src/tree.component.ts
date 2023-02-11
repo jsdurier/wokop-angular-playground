@@ -25,7 +25,7 @@ import ITreeNode from './i-tree-node';
 	styleUrls: ['./tree.component.scss']
 })
 export default class TreeComponent<T> implements OnInit {
-	@Input() node?: T;
+	@Input() node!: T;
 	@Input() indent = 0;
 	@Input() itemTemplateRef!: TemplateRef<any>;
 
@@ -34,7 +34,6 @@ export default class TreeComponent<T> implements OnInit {
 	isContentDisplayed = false;
 	faArrowRight = icons.faAngleRight;
 	faArrowDown = icons.faAngleDown;
-	rootNode!: T;
 	children?: T[];
 
 	constructor(
@@ -42,34 +41,21 @@ export default class TreeComponent<T> implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		this.fetchRootNode();
 		this._treeDataProviderService.change$.subscribe(() => {
 			this.onChange();
 		});
 	}
 
 	private async onChange(): Promise<void> {
-		this.fetchRootNode();
 		if (this.isContentDisplayed) {
-			this.children = await this._treeDataProviderService.getChildren(this.rootNode);
+			this.children = await this._treeDataProviderService.getChildren(this.node);
 		}
 	}
 
 	async toggleOpen(): Promise<void> {
 		if (!this.isContentDisplayed) {
-			this.children = await this._treeDataProviderService.getChildren(this.rootNode);
+			this.children = await this._treeDataProviderService.getChildren(this.node);
 		}
 		this.isContentDisplayed = !this.isContentDisplayed;
-	}
-
-	private async fetchRootNode(): Promise<void> {
-		this.rootNode = await this.getRootNode();
-	}
-
-	private async getRootNode(): Promise<T> {
-		if (this.node !== undefined) {
-			return this.node;
-		}
-		return this._treeDataProviderService.getRootNode();
 	}
 }

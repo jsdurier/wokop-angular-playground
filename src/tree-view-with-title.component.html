@@ -23,17 +23,30 @@
 			</div>
 		</div>
 
-		<wp-clickable-element
+		<!-- TODO-4532 -->
+		<!-- <wp-clickable-element
 			[wp-context-menu-3]="WorkspaceContextMenuComponent"
 		>
 			<div class="options"></div>
-		</wp-clickable-element>
+		</wp-clickable-element> -->
 	</div>
 
 	<div
+		*ngIf="isContentDisplayed"
 		class="content"
-		[class.is-visible]="isContentDisplayed"
 	>
-		<ng-content></ng-content>
+		<wp-multi-node-tree
+			[itemTemplateRef]="itemTemplate"
+			[indent]="2"
+		></wp-multi-node-tree>
+
+		<ng-template
+			#itemTemplate
+			let-itemData="data"
+		>
+			<wp-project-tree-item-2
+				[data]="itemData"
+			></wp-project-tree-item-2>
+		</ng-template>
 	</div>
 </div>

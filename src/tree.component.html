@@ -3,7 +3,7 @@
 </ng-template> -->
 
 <div
-	*ngIf="rootNode !== undefined"
+	*ngIf="node !== undefined"
 	[style.padding-left]="3 + indent * 10 + 'px'"
 	class="root"
 	fxLayout="row"
@@ -14,7 +14,7 @@
 		(click)="toggleOpen()"
 	>
 		<ng-container
-			*ngIf="$any(rootNode).isCollapsed"
+			*ngIf="$any(node).isCollapsed"
 		>
 			<fa-icon
 				*ngIf="!isContentDisplayed"
@@ -31,9 +31,9 @@
 	<div
 		fxFlex
 	>
-		<!-- {{rootNode}} -->
+		<!-- {{node}} -->
 		<ng-container
-			*ngTemplateOutlet="itemTemplateRef; context: {data: rootNode}"
+			*ngTemplateOutlet="itemTemplateRef; context: {data: node}"
 		></ng-container>
 	</div>
 </div>

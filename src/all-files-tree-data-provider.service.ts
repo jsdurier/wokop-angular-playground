@@ -9,28 +9,17 @@ import { IDependencyOptions } from './i-dependency-options';
 import ITreeDataProviderService from './i-tree-data-provider-service';
 import ProjectFilesService from './project-files.service';
 
-const ALIAS = 'all files';
-
 @Injectable({ providedIn: 'root' })
 export default class AllFilesTreeDataProviderService implements ITreeDataProviderService<IDependencyOptions> {
 	constructor(
 		private readonly _projectFilesService: ProjectFilesService
 	) { }
 
-	async getRootNode(): Promise<IDependencyOptions> {
-		return {
-			alias: ALIAS,
-			type: ALIAS,
-			isCollapsed: true
-		};
+	async getRootNodes(): Promise<IDependencyOptions[]> {
+		return this.getAllFiles();
 	}
 
 	async getChildren(node: IDependencyOptions): Promise<IDependencyOptions[]> {
-		if (node.alias === ALIAS) {
-			const a = await this.getAllFiles();
-			console.log('getChildren', a);
-			return a;
-		}
 		return getDepsOfTypescriptFile(
 			node,
 			async e => this.readFile(e)

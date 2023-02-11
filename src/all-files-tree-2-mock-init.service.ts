@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
-export default class NgComponentFocusTreeMockInitService {
+export default class AllFilesTree2MockInitService {
 	constructor() { }
 }

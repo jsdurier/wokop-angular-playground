@@ -1,0 +1,6 @@
+<wp-tree
+	*ngFor="let node of rootNodes"
+	[node]="node"
+	[indent]="indent + 1"
+	[itemTemplateRef]="itemTemplateRef"
+></wp-tree>

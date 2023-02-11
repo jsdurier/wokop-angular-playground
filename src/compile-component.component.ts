@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import {
 	Component,
-	Injectable,
-	Input,
-	OnChanges
+	Injectable
 } from '@angular/core';
-import { debounceTime } from 'rxjs';
+import {
+	debounceTime,
+	Unsubscribable
+} from 'rxjs';
 
 import createNgComponentFromString from './create-ng-component-from-string';
+import FocusComponentService from './focus-component.service';
 import INgProjectFilesService from './i-ng-project-files-service';
 
 const DEBOUNCE_MS = 250;
@@ -27,23 +29,30 @@ const DEBOUNCE_MS = 250;
 	]
 })
 @Injectable()
-export default class CompileComponentComponent implements OnChanges {
-	@Input() ngComponentFileName!: string;
-
+export default class CompileComponentComponent {
 	dynamicComponent: any;
 
+	private readonly _subscriptions: Unsubscribable[] = [];
+
 	constructor(
+		private readonly _focusComponentService: FocusComponentService,
 		private readonly _ngProjectFilesService: INgProjectFilesService
-	) {
-		this.listenChanges();
+	) { }
+
+	ngOnInit(): void {
+		this.update();
+		this._subscriptions.push(
+			this.listenChanges(),
+			this.listenFocusFileChange()
+		);
+	}
+
+	ngOnDestroy(): void {
+		this._subscriptions.forEach(e => e.unsubscribe());
 	}
 
 	get renderComponent(): boolean {
 		return this.dynamicComponent !== undefined;
-	}
-
-	ngOnChanges() {
-		this.update();
 	}
 
 	private update(): void {
@@ -53,12 +62,19 @@ export default class CompileComponentComponent implements OnChanges {
 		);
 	}
 
-	private listenChanges(): void {
-		/**
-		 * TODO
-		 */
-		this._ngProjectFilesService.change$.pipe(debounceTime(DEBOUNCE_MS)).subscribe(() => {
+	private listenChanges(): Unsubscribable {
+		return this._ngProjectFilesService.change$.pipe(debounceTime(DEBOUNCE_MS)).subscribe(() => {
 			this.update();
 		});
+	}
+
+	private listenFocusFileChange(): Unsubscribable {
+		return this._focusComponentService.focusComponentChange$.subscribe(() => {
+			this.update();
+		});
+	}
+
+	private get ngComponentFileName(): string {
+		return this._focusComponentService.focusComponent + '.ts';
 	}
 }

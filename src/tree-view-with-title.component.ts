@@ -8,7 +8,9 @@ import * as icons from '@fortawesome/free-solid-svg-icons';
 
 import ClickableElementComponent from './clickable-element-2';
 import ContextMenu3Directive from './context-menu-3.directive';
-import WorkspaceContextMenuComponent from './workspace-context-menu.component';
+import MultiNodeTreeComponent from './multi-node-tree.component';
+import ProjectTreeItemComponent2 from './project-tree-item.component-2';
+import TreeComponent from './tree.component';
 
 const IS_CONTENT_DISPLAYED = true;
 
@@ -21,7 +23,10 @@ const IS_CONTENT_DISPLAYED = true;
 		ClickableElementComponent,
 		ContextMenu3Directive,
 		FontAwesomeModule,
+    MultiNodeTreeComponent,
 		NgIf,
+		ProjectTreeItemComponent2,
+		TreeComponent
 	]
 })
 export default class TreeViewWithTitleComponent {
@@ -30,7 +35,8 @@ export default class TreeViewWithTitleComponent {
 	isContentDisplayed = IS_CONTENT_DISPLAYED;
 	faArrowRight = icons.faAngleRight;
 	faArrowDown = icons.faAngleDown;
-	WorkspaceContextMenuComponent = WorkspaceContextMenuComponent;
+	// TODO-4532
+	// WorkspaceContextMenuComponent = WorkspaceContextMenuComponent;
 
 	toggleOpen(): void {
 		this.isContentDisplayed = !this.isContentDisplayed;
