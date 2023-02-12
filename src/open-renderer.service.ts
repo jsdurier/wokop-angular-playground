@@ -9,40 +9,35 @@ const TIMEOUT_MS = 1000;
 
 @Injectable({ providedIn: 'root' })
 export default class OpenRendererService {
-	private _pageWrapper?: PageWrapper;
 
 	constructor(
 		private readonly _focusComponentService: FocusComponentService,
 		private readonly _ngProjectFilesService: ProjectFilesService
 	) { }
 
-	ngOnDestroy(): void {
-		this._pageWrapper?.close();
-	}
-
 	open(): void {
 		const rendererPage = window.open(`/${URL}`);
 		if (rendererPage === null) {
 			return;
 		}
-		this._pageWrapper = new PageWrapper(rendererPage);
+		const pageWrapper = new PageWrapper(rendererPage);
 		setTimeout(
 			() => {
-				this.sendData();
+				this.sendData(pageWrapper);
 				merge(
 					this._ngProjectFilesService.change$,
 					this._focusComponentService.focusComponentChange$
 				).subscribe(() => {
-					this.sendData();
+					this.sendData(pageWrapper);
 				});
 			},
 			TIMEOUT_MS
 		);
 	}
 
-	private sendData(): void {
+	private sendData(pageWrapper: PageWrapper): void {
 		const data = this.getData();
-		this._pageWrapper?.sendMessageToWindow(data);
+		pageWrapper.sendMessageToWindow(data);
 	}
 
 	private getData() {
