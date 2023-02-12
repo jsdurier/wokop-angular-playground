@@ -56,6 +56,9 @@ export default class CompileComponentComponent {
 	}
 
 	private update(): void {
+		if (this.ngComponentFileName === undefined) {
+			return;
+		}
 		this.dynamicComponent = createNgComponentFromString(
 			this.ngComponentFileName,
 			this._ngProjectFilesService
@@ -74,7 +77,11 @@ export default class CompileComponentComponent {
 		});
 	}
 
-	private get ngComponentFileName(): string {
-		return this._focusComponentService.focusComponent + '.ts';
+	private get ngComponentFileName(): string | undefined {
+		const fileName = this._focusComponentService.focusComponent;
+		if (fileName === undefined) {
+			return undefined;
+		}
+		return fileName + '.ts';
 	}
 }

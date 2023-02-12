@@ -1,0 +1,21 @@
+<div
+	[style.width.px]="isOpenInNewWindow ? 50 : 600"
+>
+	<ng-container *ngIf="!isOpenInNewWindow">
+		<button
+			(click)="showInNewWindow()"
+		>open in new window
+		</button>
+	
+		<div class="main-container">
+			<wp-compile-component></wp-compile-component>
+		</div>
+	</ng-container>
+
+	<ng-container *ngIf="isOpenInNewWindow">
+		<button
+			(click)="expandPanel()"
+		>open
+		</button>
+	</ng-container>
+</div>

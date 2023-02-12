@@ -5,15 +5,8 @@
 	overflow: hidden;
 
 	> .editor {
-		width: 900px;
-		// flex: 1;
-		background-color: #336;
-	}
-
-	> .renderer {
 		flex: 1;
-		// min-width: 600px;
-		background-color: white;
-		position: relative;
+		background-color: #336;
+		overflow: hidden;
 	}
 }

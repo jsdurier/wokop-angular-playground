@@ -149,6 +149,14 @@ export default class MonacoEditor2Component extends BaseEditor implements Contro
 			this._windowResizeSubscription.unsubscribe();
 		}
 		this._windowResizeSubscription = fromEvent(window, 'resize').subscribe(() => this._editor.layout());
+		this.listenElementResize();
 		this.onInit.emit(this._editor);
+	}
+
+	private listenElementResize(): void {
+		const resizeObserver = new ResizeObserver(() => {
+			this._editor.layout()
+		});
+		resizeObserver.observe(this._editorContainer.nativeElement);
 	}
 }

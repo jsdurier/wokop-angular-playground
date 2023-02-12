@@ -8,6 +8,7 @@ import FilesInEditorService from './files-in-editor.service';
 import IFileInEditor from './i-file-in-editor';
 import INgProjectFilesService from './i-ng-project-files-service';
 import ProjectFilesService from './project-files.service';
+import RendererPanelComponent from './renderer-panel.component';
 import VscodeWorkspaceComponent from './vscode-workspace.component';
 
 @Component({
@@ -16,6 +17,7 @@ import VscodeWorkspaceComponent from './vscode-workspace.component';
 	templateUrl: './workspace-with-renderer.component.html',
 	styleUrls: ['./workspace-with-renderer.component.scss'],
 	imports: [
+    RendererPanelComponent,
 		VscodeWorkspaceComponent,
 		CompileComponentComponent
 	],

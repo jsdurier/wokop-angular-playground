@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-
-import WorkspaceWithRendererComponent from './workspace-with-renderer.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
 	selector: 'app-root',
@@ -8,9 +7,7 @@ import WorkspaceWithRendererComponent from './workspace-with-renderer.component'
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
 	imports: [
-		WorkspaceWithRendererComponent
+		RouterModule
 	]
 })
-export default class AppComponent {
-
-}
+export default class AppComponent { }
