@@ -1,4 +1,4 @@
-import { getImports } from './get-imports';
+import getImports from './get-imports';
 import { IDependencyOptions } from './i-dependency-options';
 import { IImportInfo } from './i-import-info';
 import { isAngularComponent } from './is-angular-component';

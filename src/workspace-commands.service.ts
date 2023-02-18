@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import CreateFunctionInWorkspaceService from './create-function-in-workspace.service';
+import CreateFunctionInFileService from './create-function-in-file.service';
 import CreateNgComponentInFileService from './create-ng-component-in-file.service';
 import CreateNgServiceInFileService from './create-ng-service-in-file.service';
 import FocusComponentService from './focus-component.service';
@@ -17,7 +17,7 @@ export default class WorkspaceCommandsService {
 	} = {};
 
 	constructor(
-		createFunctionService: CreateFunctionInWorkspaceService,
+		createFunctionService: CreateFunctionInFileService,
 		createNgComponentService: CreateNgComponentInFileService,
 		createNgServiceInFileService: CreateNgServiceInFileService,
 		focusComponentService: FocusComponentService

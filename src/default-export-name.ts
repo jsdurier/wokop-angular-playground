@@ -1,0 +1,2 @@
+const DEFAULT_EXPORT_NAME = '__DEFAULT_EXPORT__';
+export default DEFAULT_EXPORT_NAME;

@@ -48,12 +48,23 @@
 
 .content {
 	flex: 1;
-	visibility: hidden;
+	// visibility: hidden;
 	overflow-y: scroll;
 
 	>div {
 		//
 	}
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.content {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .is-visible {

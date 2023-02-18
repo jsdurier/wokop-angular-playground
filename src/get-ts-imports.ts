@@ -13,5 +13,3 @@ export function getTsImports(fileContent: string): ITsImport[] {
 	);
 	return getTsImportsFromNode(node);
 }
-
-export { ITsImport };

@@ -2,7 +2,7 @@ import { IImportInfo } from './i-import-info';
 
 const REGEXP = /^import ([\w-]+) from '\.\/([\w\-\.]+)';?\s*$/;
 
-export function getImports(fileContent: string): IImportInfo[] {
+export default function getImports(fileContent: string): IImportInfo[] {
 	const lines = fileContent.split('\n');
 	return lines.map(processLine).filter(e => e !== undefined) as IImportInfo[];
 }

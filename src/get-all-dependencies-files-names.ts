@@ -1,4 +1,5 @@
-import { getImports } from './get-imports';
+import getImports from './get-imports';
+import { getTsImports } from './get-ts-imports';
 
 interface INgProjectFilesService {
 	getFile(fileName: string): string | undefined;
@@ -32,9 +33,13 @@ function getAllDepedenciesFilesNames2(
 	if (fileContent === undefined) {
 		throw new Error(`no file ${fileName}`);
 	}
-	const localImports = getImports(fileContent);
+	// const localImports = getImports(fileContent);
+	const localImports = getTsImports(fileContent);
 	localImports.forEach(e => {
-		const dependencyFileName = e.name + '.ts';
+		if (!e.moduleSpecifier.startsWith('./')) {
+			return;
+		}
+		const dependencyFileName = e.moduleSpecifier.slice(2) + '.ts';
 		getAllDepedenciesFilesNames2(
 			dependencyFileName,
 			ngProjectFilesService,

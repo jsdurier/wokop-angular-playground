@@ -34,7 +34,7 @@ export default class ProjectFilesService {
 	getFile(filePath: string): string {
 		const res = this.filePathList.find(e => e.path === filePath)?.content;
 		if (res === undefined) {
-			throw new Error();
+			throw new Error(`can not get file ${filePath}`);
 		}
 		return res;
 	}

@@ -4,6 +4,8 @@ import {
 	Subject
 } from 'rxjs';
 
+import FocusComponentsService from './focus-components.service';
+
 const KEY = 'focusComponent';
 
 @Injectable({ providedIn: 'root' })
@@ -15,7 +17,9 @@ export default class FocusComponentService {
 
 	private readonly _focusComponentChange$ = new Subject<void>();
 
-	constructor() {
+	constructor(
+		private readonly _focusComponentsService: FocusComponentsService
+	) {
 		this.focusComponent = getData();
 	}
 
@@ -29,6 +33,7 @@ export default class FocusComponentService {
 			KEY,
 			this.focusComponent
 		);
+		this._focusComponentsService.save(fileName);
 		this._focusComponentChange$.next();
 	}
 

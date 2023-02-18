@@ -1,22 +1,30 @@
 import * as angularCommon from '@angular/common';
 import * as angularCore from '@angular/core';
 import 'reflect-metadata';
+import * as rxjs from 'rxjs';
+import * as ts from 'typescript';
 
-import getAllDepedenciesFilesNames from './get-all-dependencies-files-names';
-import {
-	getTsImports,
-	ITsImport
-} from './get-ts-imports';
-import { isAngularComponent } from './is-angular-component';
-import toPascalCase from './to-pascal-case';
+import bundleAngularComponent from './bundle-angular-component';
+import bundleFiles from './bundle-files';
+import ComponentRendererComponent from './component-renderer.component';
+import TotoComponent from './toto.component';
 import transpileTs from './transpile-ts';
 
 const AngularCommon = angularCommon;
 const AngularCore = angularCore;
+const Rxjs = rxjs;
+const Typescript = ts;
+// const TotoComponent = totoComponent;
 const sharedModules = {
 	'@angular/core': 'AngularCore',
 	'@angular/common': 'AngularCommon',
-	'rxjs': 'Rxjs'
+	'rxjs': 'Rxjs',
+	'typescript': 'Typescript'
+};
+const global = {
+	TotoComponent,
+	ComponentRendererComponent
+	// CompileComponentComponent
 };
 
 interface INgProjectFilesService {
@@ -27,40 +35,21 @@ export default function createNgComponentFromString(
 	ngComponentFileName: string,
 	ngProjectFilesService: INgProjectFilesService
 ): any {
-	const bundle = bundleFiles(
+	/**
+	 * TODO-789 voir si pas de régression
+	 */
+	const bundle = bundleAngularComponent( // bundleFiles(
 		ngComponentFileName,
 		ngProjectFilesService
 	);
 	if (bundle === undefined) {
 		return undefined;
 	}
+	// console.warn('---------------------');
+	// console.log(bundle);
 	const jsCode = transpileTs(bundle);
 	const jsClass = eval(jsCode);
 	return jsClass;
-}
-
-function bundleFiles(
-	ngComponentFileName: string,
-	ngProjectFilesService: INgProjectFilesService
-): string | undefined {
-	const fileContent = ngProjectFilesService.getFile(ngComponentFileName);
-	if (fileContent === undefined) {
-		return undefined;
-	}
-	let modifiedContent = getNgComponentModifiedContent(
-		ngComponentFileName,
-		fileContent,
-		ngProjectFilesService
-	);
-	const dependenciesFilesNames = getAllDepedenciesFilesNames(
-		ngComponentFileName,
-		ngProjectFilesService
-	);
-	const res = dependenciesFilesNames.map(e => getDependencyFileModifiedContent(
-		e,
-		ngProjectFilesService
-	)).join('\n') + '\n' + modifiedContent;
-	return res;
 }
 
 // function getModifiedContent(fileContent: string): string | undefined {
@@ -78,224 +67,3 @@ function bundleFiles(
 // 	res = res.replace('export default', '');
 // 	return res + '\n' + className;
 // }
-
-function getNgComponentModifiedContent(
-	ngComponentFileName: string,
-	fileContent: string,
-	ngProjectFilesService: INgProjectFilesService
-): string | undefined {
-	let modifiedContent = convertImports(
-		ngComponentFileName,
-		fileContent
-	);
-	if (modifiedContent === undefined) {
-		return undefined;
-	}
-	modifiedContent = replaceTemplateAndStylesUrl(
-		modifiedContent,
-		ngProjectFilesService
-	);
-	return modifiedContent + '\n' + getGlobalExportedNameFromFileNameWithExtension(ngComponentFileName)
-}
-
-function replaceTemplateUrl(
-	fileContent: string,
-	ngProjectFilesService: INgProjectFilesService
-): string {
-	const a = fileContent.match(/templateUrl: '\.\/([\w\.-]+)'/);
-	if (a === null) {
-		return fileContent;
-	}
-	const templateUrl = a[1];
-	const templateFileContent = ngProjectFilesService.getFile(templateUrl);
-	if (templateFileContent === undefined) {
-		throw new Error(`no file ${templateUrl}`);
-	}
-	return fileContent.replace(
-		a[0],
-		`template: \`${templateFileContent}\``
-	);
-}
-
-function replaceStyleUrls(
-	fileContent: string,
-	ngProjectFilesService: INgProjectFilesService
-): string {
-	/**
-	 * TODO
-	 * multiple scss files
-	 */
-	const a = fileContent.match(/styleUrls: \['\.\/([\w\.-]+)'\]/);
-	if (a === null) {
-		return fileContent;
-	}
-	const styleUrl = a[1];
-	const styleFileContent = ngProjectFilesService.getFile(styleUrl);
-	if (styleFileContent === undefined) {
-		throw new Error(`no file ${styleUrl}`);
-	}
-	return fileContent.replace(
-		a[0],
-		`styles: [\`${styleFileContent}\`]`
-	);
-}
-
-function getDependencyFileModifiedContent(
-	fileName: string,
-	ngProjectFilesService: INgProjectFilesService
-): string | undefined {
-	const fileContent = ngProjectFilesService.getFile(fileName);
-	if (fileContent === undefined) {
-		throw new Error();
-	}
-	return getModifiedContent2(
-		fileName,
-		fileContent,
-		ngProjectFilesService
-	);
-}
-
-function getModifiedContent2(
-	fileNameWithExtension: string,
-	fileContent: string,
-	ngProjectFilesService: INgProjectFilesService
-): string | undefined {
-	let res = convertImports(
-		fileNameWithExtension,
-		fileContent
-	);
-	if (res === undefined) {
-		return undefined;
-	}
-	if (!isAngularComponent(fileContent)) {
-		return res;
-	}
-	return replaceTemplateAndStylesUrl(
-		res,
-		ngProjectFilesService
-	);
-}
-
-function convertImports(
-	fileNameWithExtension: string,
-	fileContent: string
-): string | undefined {
-	const imports = getTsImports(fileContent);
-	const importLines = convertImportLines(imports);
-	const a = fileContent.match(/export default \w+ ([\w_]+)/);
-	if (a === null) {
-		return undefined;
-	}
-	const exportedName = a[1];
-	let b = fileContent.replace('export default ', '');
-	if (imports.length > 0) {
-		b = b.slice(imports.slice(-1)[0]?.tokenPosition.end);
-	}
-	const globalName = getGlobalExportedNameFromFileNameWithExtension(fileNameWithExtension);
-	return `const ${globalName} = (() => {
-  ${importLines}
-
-  ${b}
-  return ${exportedName};
-})();`
-}
-
-function convertImportLines(
-	imports: ITsImport[]
-): string {
-	const res: string[] = [];
-	imports.forEach(e => {
-		const namespace = getNamespace(e.moduleSpecifier);
-		if (namespace === undefined) {
-			return;
-		}
-		if (typeof e.importClause === 'string') {
-			const line = createAlias(
-				e.importClause,
-				namespace
-			);
-			if (line !== undefined) {
-				res.push(line);
-			}
-			return;
-		}
-		if (!Array.isArray(e.importClause)) {
-			const line = createAlias(
-				e.importClause.defaultImport,
-				namespace
-			);
-			if (line !== undefined) {
-				res.push(line);
-			}
-			return;
-		}
-		e.importClause.forEach(element => {
-			if (typeof element === 'string') {
-				res.push(`const ${element} = ${namespace}.${element};`);
-				return;
-			}
-			res.push(`const ${element.name} = ${namespace}.${element.propertyName};`);
-		});
-		return;
-	});
-	return res.join('\n');
-}
-
-function createAlias(
-	alias: string,
-	name: string
-): string | undefined {
-	if (alias === name) {
-		return undefined;
-	}
-	return `const ${alias} = ${name};`;
-}
-
-function getNamespace(moduleSpecifier: string): string | undefined {
-	const globalNamespace = getGlobalNamespace(moduleSpecifier);
-	if (globalNamespace !== undefined) {
-		return globalNamespace;
-	}
-	const match = moduleSpecifier.match(/\.\/([\w\.-]+)/);
-	if (match === null) {
-		return undefined;
-	}
-	const fileName = match[1];
-	return getGlobalExportedNameFromFileName(fileName);
-}
-
-function getGlobalNamespace(moduleSpecifier: string): string | undefined {
-	return (sharedModules as any)[moduleSpecifier];
-}
-
-function replaceTemplateAndStylesUrl(
-	fileContent: string,
-	ngProjectFilesService: INgProjectFilesService
-): string {
-	let res = fileContent;
-	res = replaceTemplateUrl(
-		res,
-		ngProjectFilesService
-	);
-	res = replaceStyleUrls(
-		res,
-		ngProjectFilesService
-	);
-	return res;
-}
-
-function getGlobalExportedNameFromFileNameWithExtension(fileNameWithExtension: string): string {
-	let fileName = getFileName(fileNameWithExtension);
-	return getGlobalExportedNameFromFileName(fileName);
-}
-
-function getGlobalExportedNameFromFileName(fileName: string): string {
-	const a = fileName.replace('.', '_');
-	return toPascalCase(a);
-}
-
-function getFileName(filePath: string): string {
-	const a = filePath.split('.');
-	a.pop();
-	return a.join('.');
-}

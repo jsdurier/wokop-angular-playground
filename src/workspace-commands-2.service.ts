@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 
+import CreateFileInWorkspaceService from './create-file-in-workspace.service';
+import CreateFunctionInWorkspaceService from './create-function-in-workspace.service';
+import CreateNgComponentInWorkspaceService from './create-ng-component-in-workspace.service';
 import IWorkspaceCommand from './i-workspace-command';
 
 @Injectable({ providedIn: 'root' })
@@ -9,32 +12,37 @@ export default class WorkspaceCommands2Service {
 	} = {};
 
 	constructor(
-		// createFunctionService: CreateFunctionInWorkspaceService,
-		// createNgComponentService: CreateNgComponentInFileService,
+		createFunctionService: CreateFunctionInWorkspaceService,
+		createNgComponentService: CreateNgComponentInWorkspaceService,
+		createFileInWorkspaceService: CreateFileInWorkspaceService
 		// createNgServiceInFileService: CreateNgServiceInFileService
 	) {
 		this.commands = {
 			createFunction: {
 				name: 'Create function',
 				handler: () => {
-					console.warn('create function');
-					// createFunctionService.createFunction();
+					createFunctionService.createFunction();
 				}
 			},
 			createNgComponent: {
 				name: 'Create ng component',
 				handler: () => {
-					console.warn('create ng component');
-					// createNgComponentService.createNgComponentInFile(data);
+					createNgComponentService.createNgComponentInWorkspace();
 				}
 			},
-			createNgService: {
-				name: 'Create ng service',
+			createFile: {
+				name: 'Create file',
 				handler: () => {
-					console.warn('create ng service');
-					// createNgServiceInFileService.createNgServiceInFile(data);
+					createFileInWorkspaceService.createFileInWorkspace();
 				}
-			}
+			},
+			// createNgService: {
+			// 	name: 'Create ng service',
+			// 	handler: () => {
+			// 		console.warn('create ng service');
+			// 		// createNgServiceInFileService.createNgServiceInFile(data);
+			// 	}
+			// }
 		};
 	}
 

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import addNewImport from './add-new-import';
 import { convertToKebabCase } from './convert-to-kebab-case';
 import { getAvailableName } from './get-available-name';
 import { getTypescriptFileName } from './get-typescript-file-name';
@@ -15,7 +14,7 @@ export default class CreateFunctionInWorkspaceService {
 		private readonly _showInputBoxService: ShowInputBoxService
 	) { }
 
-	async createFunction(data: { filePath: string }): Promise<void> {
+	async createFunction() {
 		const interfaceNameFromUser = await this._showInputBoxService.showInputBox({
 			placeHolder: 'functionName',
 			prompt: 'Function name'
@@ -37,18 +36,9 @@ export default class CreateFunctionInWorkspaceService {
 }
 `
 		});
-		const importerFilePath = data.filePath;
-		const importerFileContent = this._projectFilesService.getFile(importerFilePath);
-		const newFileContent = addNewImport(
-			{
-				alias: functionName,
-				name: availableNameKebab
-			},
-			importerFileContent
-		);
-		this._projectFilesService.updt_modifyContent({
-			path: importerFilePath,
-			content: newFileContent
-		});
+		return {
+			functionName,
+			availableNameKebab
+		};
 	}
 }
