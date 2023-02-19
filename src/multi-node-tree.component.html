@@ -3,4 +3,6 @@
 	[node]="node"
 	[indent]="indent + 1"
 	[itemTemplateRef]="itemTemplateRef"
+	[openState]="getOpenState(node)"
+	(isContentDisplayedChange)="changeIsContentDisplayedChange($event)"
 ></wp-tree>

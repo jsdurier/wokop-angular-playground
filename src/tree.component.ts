@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import {
 	Component,
-	ContentChild,
+	EventEmitter,
 	Input,
 	OnInit,
+	Output,
 	TemplateRef
 } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -11,7 +12,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as icons from '@fortawesome/free-solid-svg-icons';
 
 import ITreeDataProviderService from './i-tree-data-provider-service';
-import ITreeNode from './i-tree-node';
 
 @Component({
 	selector: 'wp-tree',
@@ -28,10 +28,13 @@ export default class TreeComponent<T> implements OnInit {
 	@Input() node!: T;
 	@Input() indent = 0;
 	@Input() itemTemplateRef!: TemplateRef<any>;
+	@Input() openState?: T[][];
 
-	// @ContentChild('itemTemplate') itemTemplateRef!: TemplateRef<any>;
+	@Output() isContentDisplayedChange = new EventEmitter<{
+		path: T[];
+		isOpen: boolean;
+	}>();
 
-	isContentDisplayed = false;
 	faArrowRight = icons.faAngleRight;
 	faArrowDown = icons.faAngleDown;
 	children?: T[];
@@ -41,9 +44,11 @@ export default class TreeComponent<T> implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		this._treeDataProviderService.change$.subscribe(() => {
-			this.onChange();
-		});
+		this.onChange();
+	}
+
+	get isContentDisplayed(): boolean {
+		return this.openState !== undefined && this.openState.some(e => e.length === 1);
 	}
 
 	private async onChange(): Promise<void> {
@@ -56,6 +61,40 @@ export default class TreeComponent<T> implements OnInit {
 		if (!this.isContentDisplayed) {
 			this.children = await this._treeDataProviderService.getChildren(this.node);
 		}
-		this.isContentDisplayed = !this.isContentDisplayed;
+		this.isContentDisplayedChange.next({
+			path: [this.node],
+			isOpen: !this.isContentDisplayed
+		});
 	}
+
+	changeChildContentDisplayed(value: {
+		path: T[],
+		isOpen: boolean
+	}): void {
+		this.isContentDisplayedChange.next({
+			path: [
+				this.node,
+				...value.path
+			],
+			isOpen: value.isOpen
+		});
+	}
+
+	getOpenState(node: T) {
+		if (this.openState === undefined) {
+			return undefined;
+		}
+		const list = this.openState.map(e => e.slice(1)).filter(e => e.length !== 0 && isDataEqual(
+			e[0],
+			node
+		));
+		return list.length > 0 ? list : undefined;
+	}
+}
+
+function isDataEqual(
+	x: any,
+	y: any
+): boolean {
+	return JSON.stringify(x) === JSON.stringify(y);
 }

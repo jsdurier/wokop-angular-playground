@@ -11,6 +11,7 @@ import ContextMenu3Directive from './context-menu-3.directive';
 import MultiNodeTreeComponent from './multi-node-tree.component';
 import ProjectTreeItemComponent2 from './project-tree-item.component-2';
 import TreeComponent from './tree.component';
+import TreeOpenStateService from './tree-open-state.service';
 import WorkspaceContextMenuComponent from './workspace-context-menu.component';
 
 const IS_CONTENT_DISPLAYED = true;
@@ -28,6 +29,9 @@ const IS_CONTENT_DISPLAYED = true;
 		NgIf,
 		ProjectTreeItemComponent2,
 		TreeComponent
+	],
+	providers: [
+		TreeOpenStateService
 	]
 })
 export default class TreeViewWithTitleComponent {

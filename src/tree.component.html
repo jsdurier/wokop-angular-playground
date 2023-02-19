@@ -50,6 +50,8 @@
 		[node]="node"
 		[indent]="indent + 1"
 		[itemTemplateRef]="itemTemplateRef"
+		[openState]="getOpenState(node)"
+		(isContentDisplayedChange)="changeChildContentDisplayed($event)"
 	></wp-tree>
 </ng-container>
 <!-- </div> -->

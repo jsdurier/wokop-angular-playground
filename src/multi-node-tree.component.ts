@@ -12,6 +12,7 @@ import * as icons from '@fortawesome/free-solid-svg-icons';
 import { Unsubscribable } from 'rxjs';
 
 import ITreeDataProviderService from './i-tree-data-provider-service';
+import TreeOpenStateService from './tree-open-state.service';
 import TreeComponent from './tree.component';
 
 @Component({
@@ -31,7 +32,6 @@ export default class MultiNodeTreeComponent<T> implements OnDestroy, OnInit {
 	@Input() indent = 0;
 	@Input() itemTemplateRef!: TemplateRef<any>;
 
-	isContentDisplayed = false;
 	faArrowRight = icons.faAngleRight;
 	faArrowDown = icons.faAngleDown;
 	rootNodes!: T[];
@@ -40,7 +40,8 @@ export default class MultiNodeTreeComponent<T> implements OnDestroy, OnInit {
 	private readonly _subscriptions: Unsubscribable[] = [];
 
 	constructor(
-		private readonly _treeDataProviderService: ITreeDataProviderService<T>
+		private readonly _treeDataProviderService: ITreeDataProviderService<T>,
+    private readonly _treeOpenStateService: TreeOpenStateService<T>
 	) { }
 
 	ngOnInit(): void {
@@ -52,6 +53,17 @@ export default class MultiNodeTreeComponent<T> implements OnDestroy, OnInit {
 
 	ngOnDestroy(): void {
 		this._subscriptions.forEach(e => e.unsubscribe());
+	}
+
+	getOpenState(node: T) {
+		return this._treeOpenStateService.getState(node);
+	}
+
+	changeIsContentDisplayedChange(value: {
+		path: T[],
+		isOpen: boolean
+	}): void {
+		this._treeOpenStateService.changeNodeState(value);
 	}
 
 	private async onChange(): Promise<void> {
